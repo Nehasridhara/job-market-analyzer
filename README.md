@@ -134,8 +134,6 @@ The "Ask AI" page deliberately avoids letting an LLM compute statistics directly
 
 This means the system can fail to understand a question, but it cannot invent a statistic.
 
----
-
 ## Honest limitations
 
 - **Salary model R² = 0.289** — modest, primarily because the integrated dataset spans both government and private-sector pay scales with fundamentally different distributions
@@ -143,19 +141,12 @@ This means the system can fail to understand a question, but it cannot invent a 
 - **Skill trend analysis (2020-2023)** relies on title-based skill inference for Kaggle data (no real descriptions available), normalized against description-based extraction for 2026 data — methodology is documented transparently in the dashboard
 - **Dictionary-based skill extraction** can miss skills not in the predefined list or described using non-standard terminology; a future improvement would add a transformer-based NER model (e.g. JobBERT) as a complementary layer
 
----
-
 ## Future improvements
 
 - Hybrid skill extraction combining dictionary NER with a fine-tuned transformer model
 - Larger labeled salary dataset to reduce cross-source distribution shift
 - Scheduled re-scraping to keep trend data current beyond 2026
 
----
-
 ## Author
 
 Neha Sridhara 
-```
-
-
