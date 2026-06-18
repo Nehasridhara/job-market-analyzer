@@ -149,4 +149,7 @@ This means the system can fail to understand a question, but it cannot invent a 
 
 ## Author
 
-Neha Sridhara — MS Data Science, Stevens Institute of Technology
+Neha Sridhara 
+```
+
+
