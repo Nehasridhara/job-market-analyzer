@@ -1,0 +1,51 @@
+skill1,skill2,count
+machine learning,python,77
+python,sql,71
+aws,python,43
+nlp,python,40
+python,r,38
+machine learning,nlp,36
+machine learning,pytorch,36
+python,pytorch,35
+azure,python,31
+machine learning,sql,30
+python,spark,30
+python,statistics,29
+r,sql,29
+aws,machine learning,29
+python,tensorflow,27
+llm,python,25
+machine learning,tensorflow,25
+pytorch,tensorflow,25
+sql,statistics,24
+aws,azure,24
+aws,sql,24
+deep learning,machine learning,24
+azure,machine learning,23
+machine learning,statistics,23
+python,tableau,23
+llm,machine learning,23
+java,python,23
+machine learning,r,21
+spark,sql,21
+sql,tableau,21
+deep learning,python,21
+machine learning,spark,19
+classification,python,19
+nlp,pytorch,19
+llm,nlp,19
+agile,python,19
+power bi,python,18
+power bi,sql,18
+azure,sql,17
+r,statistics,17
+classification,machine learning,17
+aws,pytorch,17
+azure,pytorch,17
+databricks,python,16
+power bi,tableau,15
+aws,nlp,15
+nlp,tensorflow,15
+java,machine learning,15
+r,tableau,14
+aws,llm,14

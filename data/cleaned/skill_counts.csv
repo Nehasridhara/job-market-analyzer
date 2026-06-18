@@ -1,0 +1,26 @@
+skill,count,percentage
+python,131,68.9
+machine learning,93,48.9
+sql,76,40.0
+nlp,52,27.4
+aws,50,26.3
+pytorch,40,21.1
+r,39,20.5
+statistics,37,19.5
+azure,37,19.5
+spark,31,16.3
+tableau,29,15.3
+llm,29,15.3
+tensorflow,28,14.7
+deep learning,27,14.2
+agile,24,12.6
+java,24,12.6
+databricks,22,11.6
+power bi,22,11.6
+excel,22,11.6
+classification,21,11.1
+git,15,7.9
+github,15,7.9
+scikit-learn,14,7.4
+transformers,14,7.4
+snowflake,14,7.4
