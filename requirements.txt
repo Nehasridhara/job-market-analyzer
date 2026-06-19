@@ -19,3 +19,4 @@ networkx
 streamlit
 python-dotenv
 tqdm
+google-genai
