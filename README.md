@@ -2,7 +2,7 @@
 
 An end-to-end data science pipeline that scrapes, integrates, and analyzes real job postings to understand the 2025-2026 US data science, ML, and AI job market.
 
-**Live demo:** *(link added after deployment)*
+**Live demo:** *(https://job-market-analyzer-neha.streamlit.app)*
 
 ---
 
