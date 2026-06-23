@@ -40,7 +40,6 @@ client = genai.Client(api_key=GEMINI_API_KEY)
 df = load_combined_data()
 st.markdown("## Ask Your Question")
 
-# Describe the dataframe structure for Gemini
 DATA_CONTEXT = """
 The dataframe is called `df` and has these columns:
 - title (string): job title
@@ -93,15 +92,13 @@ user_question = st.text_input(
 )
 
 if st.button("Ask AI", type="primary"):
-    
+
     if not user_question.strip():
         st.warning("Please enter a question first.")
     else:
         with st.spinner("Thinking..."):
-            
-            # ============================
+
             # STEP 1 — Generate the query
-            # ============================
             query_prompt = f"""
 {DATA_CONTEXT}
 
@@ -125,23 +122,28 @@ Rules:
 Example output format:
 df[df['role_label'] == 'data analyst']['salary_min'].dropna().mean()
 """
-            
+
             query_response = client.models.generate_content(
-            model="gemini-2.5-flash",
-            contents=query_prompt)
+                model="gemini-2.5-flash",
+                contents=query_prompt
+            )
             generated_code = query_response.text.strip()
-            
-            # Clean up — remove markdown code fences if present
+
+            # Clean up markdown fences if present
             generated_code = generated_code.replace(
                 "```python", ""
             ).replace("```", "").strip()
-            
-            # ============================
+
+            # Fix common Gemini typos before executing
+            generated_code = generated_code.replace(
+                "dropn()", "dropna()"
+            ).replace(
+                ".mean(axis=1).dropna()", 
+                ".mean(axis=1)"
+            )
+
             # STEP 2 — Execute SAFELY
-            # ============================
             try:
-                # Restricted execution environment
-                # Only 'df' and safe builtins are accessible
                 safe_globals = {
                     "df": df,
                     "pd": pd,
@@ -153,12 +155,10 @@ df[df['role_label'] == 'data analyst']['salary_min'].dropna().mean()
                         "str": str
                     }
                 }
-                
+
                 result = eval(generated_code, safe_globals)
-                
-                # ============================
+
                 # STEP 3 — Phrase the answer
-                # ============================
                 answer_prompt = f"""
 The user asked: "{user_question}"
 
@@ -174,22 +174,20 @@ use a whole number with comma separators.
 Do not add extra commentary or caveats. Just state the 
 fact clearly.
 """
-                
+
                 answer_response = client.models.generate_content(
-                model="gemini-2.5-flash",
-                contents=answer_prompt)
+                    model="gemini-2.5-flash",
+                    contents=answer_prompt
+                )
                 final_answer = answer_response.text.strip()
-                
-                # ============================
-                # Display results
-                # ============================
+
                 st.markdown("## Answer")
                 st.success(final_answer)
-                
+
                 with st.expander("See the actual code that ran"):
                     st.code(generated_code, language="python")
                     st.write(f"**Raw result:** {result}")
-                
+
             except Exception as e:
                 st.error(
                     f"Couldn't compute an answer for this question. "
