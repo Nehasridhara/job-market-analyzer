@@ -3,6 +3,7 @@ import pandas as pd
 from google import genai
 import sys
 import os
+import time
 from dotenv import load_dotenv
 
 sys.path.append(
@@ -38,6 +39,22 @@ if not GEMINI_API_KEY:
 client = genai.Client(api_key=GEMINI_API_KEY)
 
 df = load_combined_data()
+
+# Retry wrapper for Gemini API calls
+def call_gemini(client, model, contents, retries=3):
+    for attempt in range(retries):
+        try:
+            return client.models.generate_content(
+                model=model,
+                contents=contents
+            )
+        except Exception as e:
+            if ("503" in str(e) or "UNAVAILABLE" in str(e)) \
+               and attempt < retries - 1:
+                time.sleep(5)
+                continue
+            raise e
+
 st.markdown("## Ask Your Question")
 
 DATA_CONTEXT = """
@@ -123,9 +140,10 @@ Example output format:
 df[df['role_label'] == 'data analyst']['salary_min'].dropna().mean()
 """
 
-            query_response = client.models.generate_content(
-                model="gemini-2.5-flash",
-                contents=query_prompt
+            query_response = call_gemini(
+                client,
+                "gemini-2.0-flash-lite",
+                query_prompt
             )
             generated_code = query_response.text.strip()
 
@@ -138,7 +156,7 @@ df[df['role_label'] == 'data analyst']['salary_min'].dropna().mean()
             generated_code = generated_code.replace(
                 "dropn()", "dropna()"
             ).replace(
-                ".mean(axis=1).dropna()", 
+                ".mean(axis=1).dropna()",
                 ".mean(axis=1)"
             )
 
@@ -175,9 +193,10 @@ Do not add extra commentary or caveats. Just state the
 fact clearly.
 """
 
-                answer_response = client.models.generate_content(
-                    model="gemini-2.5-flash",
-                    contents=answer_prompt
+                answer_response = call_gemini(
+                    client,
+                    "gemini-2.0-flash-lite",
+                    answer_prompt
                 )
                 final_answer = answer_response.text.strip()
 
@@ -226,6 +245,6 @@ with st.expander("ℹ️ How this works"):
     """)
 
 st.caption(
-    "Powered by Google Gemini 2.5 Flash · "
+    "Powered by Google Gemini · "
     "Queries run against 2,249 real job postings"
 )
